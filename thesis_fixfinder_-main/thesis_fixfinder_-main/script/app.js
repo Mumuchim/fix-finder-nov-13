@@ -50,13 +50,12 @@ let pinPositions = [];
 
 function savePinPositions() {
     try {
-        // Store both position and image src
         const positionsWithImages = pinPositions.map(position => {
             const pinElement = document.getElementById(position.pinId);
             const img = pinElement.querySelector('img');
             return {
                 ...position,
-                imgSrc: img ? img.src : null // Save the image src if it exists
+                imgSrc: img ? img.src : null
             };
         });
         localStorage.setItem("pinPositions", JSON.stringify(positionsWithImages));
@@ -78,17 +77,14 @@ function loadPinPositions() {
                 pinElement.id = position.pinId;
                 document.getElementById("mapContainer").appendChild(pinElement);
 
-                // Create an image element for the pin and set its source
                 const img = document.createElement('img');
-                img.src = position.imgSrc; // Set the saved image source
+                img.src = position.imgSrc;
                 pinElement.appendChild(img);
 
-                // Add click listener to previously loaded pins with options
                 pinElement.addEventListener('click', () => {
                     showPinOptions(pinElement, position.pinId);
                 });
 
-                // Add the saved position to the current pinPositions array
                 pinPositions.push(position);
             });
         }
@@ -115,10 +111,8 @@ document.addEventListener('DOMContentLoaded', function () {
         function onMouseUp() {
             isDragging = false;
 
-            // Ask for confirmation to fix the position
             const confirmPosition = confirm('Do you want to confirm the pin\'s position?');
             if (confirmPosition) {
-                // Fix the position
                 pin.style.position = 'absolute';
                 const pinId = pin.id;
                 pinPositions = pinPositions.filter(p => p.pinId !== pinId);
@@ -129,17 +123,17 @@ document.addEventListener('DOMContentLoaded', function () {
                 });
                 savePinPositions();
 
-                // Remove drag event listeners to make the position fixed
                 pin.removeEventListener('mousedown', onMouseDown);
                 pin.removeEventListener('mousemove', onMouseMove);
                 pin.removeEventListener('mouseup', onMouseUp);
 
-                // Add the click event for options (it will remain clickable)
                 pin.addEventListener('click', () => {
                     showPinOptions(pin, pinId);
                 });
+
+                // Automatically show the report form after confirmation
+                openForm();
             } else {
-                // Allow dragging again if the user cancels
                 makeDraggable(pin);
             }
 
@@ -168,22 +162,19 @@ document.addEventListener('DOMContentLoaded', function () {
         clone.style.top = `${y}px`;
         mapContainer.appendChild(clone);
 
-        // Save the image source along with the position
         const img = clone.querySelector('img');
         const imgSrc = img ? img.src : null;
 
-        // Add the cloned pin's details to the pinPositions array
         pinPositions.push({
             pinId: pinId,
             top: clone.style.top,
             left: clone.style.left,
-            imgSrc: imgSrc // Save image source
+            imgSrc: imgSrc
         });
 
         savePinPositions();
 
         makeDraggable(clone);
-        // Add click listener to cloned pins with options
         clone.addEventListener('click', () => {
             showPinOptions(clone, pinId);
         });
@@ -208,28 +199,23 @@ document.addEventListener('DOMContentLoaded', function () {
 
 // Show modal with pin options
 function showPinOptions(pinElement, pinId) {
-    // Check if a modal is already open
     if (document.querySelector('.custom-modal')) {
-        return; // If a modal is already present, don't create another one
+        return;
     }
 
-    // Create modal
     const modal = document.createElement('div');
     modal.classList.add('custom-modal');
     modal.style.position = 'absolute';
     modal.style.top = `${pinElement.getBoundingClientRect().top - 100}px`;
     modal.style.left = `${pinElement.getBoundingClientRect().left}px`;
     modal.style.width = '200px';
-    modal.style.height = '177px';
+    modal.style.height = '140px';
     modal.style.backgroundColor = '#042331';
     modal.style.border = '1px solid #ccc';
     modal.style.borderRadius = '8px';
     modal.style.padding = '10px';
     modal.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.2)';
-    
-    // Create buttons
-    const reportButton = document.createElement('button');
-    reportButton.textContent = 'Report';
+
     const statusButton = document.createElement('button');
     statusButton.textContent = 'Status';
     const removeButton = document.createElement('button');
@@ -237,19 +223,11 @@ function showPinOptions(pinElement, pinId) {
     const closeButton = document.createElement('button');
     closeButton.textContent = 'Close';
 
-    modal.appendChild(reportButton);
     modal.appendChild(statusButton);
     modal.appendChild(removeButton);
     modal.appendChild(closeButton);
 
-    // Append modal to body
     document.body.appendChild(modal);
-
-    // Button actions
-    reportButton.addEventListener('click', () => {
-        openForm(); // Function to open report form (you can define the form display logic here)
-        document.body.removeChild(modal);
-    });
 
     statusButton.addEventListener('click', () => {
         window.location.href = '/pages/status.html';
@@ -261,7 +239,6 @@ function showPinOptions(pinElement, pinId) {
             const mapContainer = document.getElementById('mapContainer');
             mapContainer.removeChild(pinElement);
 
-            // Remove pin from pinPositions and update localStorage
             pinPositions = pinPositions.filter(p => p.pinId !== pinId);
             savePinPositions();
         }

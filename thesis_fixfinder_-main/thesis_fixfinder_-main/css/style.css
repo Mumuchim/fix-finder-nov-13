@@ -195,6 +195,7 @@ label #cancel {
 }
 
 /* Custom modal styles */
+
 .custom-modal {
   position: fixed;
   top: 50%;
@@ -205,9 +206,6 @@ label #cancel {
   border: 1px solid #ccc;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   z-index: 1000;
-}
-
-.custom-modal {
   display: flex;
   flex-direction: column;
   gap: 10px;
