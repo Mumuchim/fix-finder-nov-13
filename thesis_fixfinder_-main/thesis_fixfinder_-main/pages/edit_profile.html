@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Profile - Admin Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="../css/registration.css">
+    <link rel="stylesheet" href="../css/edit_profile.css">
+</head>
+<body>
+    <!-- Sidebar Menu -->
+    <!-- <input type="checkbox" id="check">
+    <label for="check">
+        <i class="fas fa-bars" id="btn"></i>
+        <i class="fas fa-times" id="cancel"></i>
+    </label> -->
+    <!-- <div class="sidebar">
+        <header>Admin</header>
+        <ul>
+            <li><a href="../pages/admin.html"><i class="fas fa-qrcode"></i>Dashboard</a></li>
+            <li><a href="../pages/report.html"><i class="fas fa-book"></i>Student Reports</a></li>
+            <li><a href="../pages/history.html"><i class="fas fa-history"></i>History</a></li>
+            <li><a href="../pages/test.html"><i class="fas fa-edit"></i>Edit Profile</a></li>
+            <li><a href="#"><i class="fas fa-sign-out"></i>Logout</a></li>
+        </ul>   
+    </div> -->
+
+    <!-- Main Content -->
+    <section>
+        <div class="container">
+            <h2>Edit Profile</h2>
+            <div class="profile-card">
+                <div class="profile-pic">
+                    <img id="profileImage" src="../img/user.png" alt="Profile Picture">
+                </div>          
+
+                <form class="profile-form" method="POST" action="edit_profile.php">
+                    <div class="form-group">
+                        <label for="fName">First Name</label>
+                        <input type="text" id="fName" name="fName" placeholder="Enter your first name" required>
+                    </div>
+                
+                    <div class="form-group">
+                        <label for="lName">Last Name</label>
+                        <input type="text" id="lName" name="lName" placeholder="Enter your last name" required>
+                    </div>
+                
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                    </div>
+                
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                    </div>
+                
+                    <div class="button-group">
+                        <button type="button" onclick="navigateToDashboard()" class="back-button">Back to Home</button>
+                        <button type="submit" class="save-button">Save Changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Popup for message feedback -->
+    <div class="popup" id="popup">
+        <div class="popup-content">
+            <p><?php echo isset($message) ? $message : ''; ?></p>
+            <button class="close-btn" onclick="document.getElementById('popup').style.display='none';">Close</button>
+        </div>
+    </div>
+
+    <script>
+    window.onload = function() {
+        // Only show the popup if there's a message
+        if ("<?php echo isset($message) ? $message : ''; ?>") {
+            document.getElementById('popup').style.display = 'flex';
+        }
+    }
+    </script>
+
+    <!-- JavaScript to handle navigation -->
+    <script src="../script/loadSidebar.js"></script>
+    <script src="../script/edit.js"></script>
+    
+</body>
+</html>
